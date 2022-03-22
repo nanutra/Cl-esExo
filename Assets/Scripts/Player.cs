@@ -56,6 +56,7 @@ public class Player : MonoBehaviour
                 {
                     Debug.Log("bravo ! ");
                     m_keyHolder.Add(o_key);
+                    
                 }
             }
             
