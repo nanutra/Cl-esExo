@@ -16,14 +16,15 @@ public class Foe : MonoBehaviour
 
     private NavMeshAgent agent;
 
-    private Transform player;
+    private Transform m_player;
+    private Vector3 m_target;
 
     private bool isTrigger = false;
     private bool isTriggerCam = false;
     
     private int state = 0;
 
-    private Event m_triggeredEvent;
+    [SerializeField] private Event m_triggeredEvent;
 
     private void OnEnable()
     {
@@ -42,15 +43,21 @@ public class Foe : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        
         if (isTrigger)
         {
-            agent.SetDestination(player.position);
-
+            isTriggerCam = false;
+            agent.SetDestination(m_player.position);
             return;
         }
-        else if (isTriggerCam)
+        if (isTriggerCam)
         {
-            
+            if (Vector3.Distance(transform.position, m_target) < 0.3f)
+            {
+                isTriggerCam = false;
+            }
+            return;
         }
         agent.SetDestination(l_path[state].position);
         CheckPos();
@@ -71,12 +78,6 @@ public class Foe : MonoBehaviour
     {
         state = Random.Range(0, l_path.Count - 1);
 
-        /*state++;
-        if (state > l_path.Count - 1)
-        {
-
-        }
-        /**/
     }
 
 
@@ -88,12 +89,14 @@ public class Foe : MonoBehaviour
             isTrigger = true;
             if (other.GetComponent<Player>() != null)
             {
-                player = other.gameObject.GetComponent<Transform>();
+                m_player = other.gameObject.GetComponent<Transform>();
+                m_target = m_player.position;
             }
         }
     }
     private void OnTriggerExit(Collider other)
     {
+        isTrigger = false;
         if (m_playerLayer == other.gameObject.layer)
         {
             isTrigger = false;
@@ -102,7 +105,8 @@ public class Foe : MonoBehaviour
 
     void HandleTriggerEvent(Vector3 _position)
     {
-        agent.SetDestination(_position);
-
+       m_target = _position;
+       agent.SetDestination(_position);
+       isTriggerCam = true;
     }
 }

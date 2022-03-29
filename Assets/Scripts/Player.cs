@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if ((m_chestLayer.value &(1 << other.gameObject.layer)) >0 )
+        if ((m_chestLayer.value & (1 << other.gameObject.layer)) >0 )
         {
             Chest myLootBox = other.gameObject.GetComponent<Chest>();
             
