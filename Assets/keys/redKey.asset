@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fa8d5c857bf6d749b7965a0c5b6f2aa, type: 3}
   m_Name: redKey
   m_EditorClassIdentifier: 
+  keyMat: {fileID: 2100000, guid: a1eae6ee1b70e0e42bb4201a64ac8989, type: 2}
